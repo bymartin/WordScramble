@@ -17,6 +17,18 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
     
+    private var score: Int {
+        var myScore = 0
+        for word in usedWords {
+            // 1 point for each letter
+            myScore += word.count
+            
+            // 1 point for each word
+            myScore += 1
+        }
+        return myScore
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -29,6 +41,10 @@ struct ContentView: View {
                     Image(systemName: "\($0.count).circle")
                     Text($0)
                 }
+                Text("Score: \(score)")
+                .padding()
+                    .font(.largeTitle)
+                    .foregroundColor(.orange)
             }
             .navigationBarTitle(rootWord)
             .navigationBarItems(leading:
@@ -89,6 +105,8 @@ struct ContentView: View {
     }
     
     func startGame() {
+        usedWords.removeAll()
+        
         if let startWordsURL =
             Bundle.main.url(forResource: "start", withExtension: "txt") {
             if let startWords = try? String(contentsOf: startWordsURL) {
