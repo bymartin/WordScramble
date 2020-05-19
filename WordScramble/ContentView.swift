@@ -52,6 +52,18 @@ struct ContentView: View {
             return
         }
         
+        // disallow answers shorter than 3 letters
+        guard answer.count > 2 else {
+            wordError(title: "Word too short", message: "Words should be at least 3 letters long")
+            return
+        }
+        
+        // make sure answer is not the same as the root word
+        guard answer != rootWord else {
+            wordError(title: "Same as root word!", message: "That is not allowed!")
+            return
+        }
+        
         guard isOriginal(word: answer) else {
             wordError(title: "Word used already", message: "Be more original")
             return
