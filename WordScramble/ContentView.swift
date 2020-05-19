@@ -31,9 +31,14 @@ struct ContentView: View {
                 }
             }
             .navigationBarTitle(rootWord)
-            .onAppear(perform: startGame)
-            .alert(isPresented: $showingError) {
-                Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+            .navigationBarItems(leading:
+                Button(action: startGame) {
+                    Text("Start new game")
+                }
+            )
+                .onAppear(perform: startGame)
+                .alert(isPresented: $showingError) {
+                    Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
             }
         }
         
@@ -68,12 +73,12 @@ struct ContentView: View {
             wordError(title: "Word used already", message: "Be more original")
             return
         }
-
+        
         guard isPossible(word: answer) else {
             wordError(title: "Word not recognized", message: "You can't just make them up, you know!")
             return
         }
-
+        
         guard isReal(word: answer) else {
             wordError(title: "Word not possible", message: "That isn't a real word.")
             return
